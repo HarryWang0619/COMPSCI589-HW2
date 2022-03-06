@@ -23,13 +23,13 @@ def preprocess_text(text):
 	return [w for w in words if w not in stop_words]
 
 def load_training_set(percentage_positives, percentage_negatives):
-	vocab = set()
+	vocab = set() # I returned list later
 	positive_instances = []
 	negative_instances = []
 	for filename in glob.glob('train/pos/*.txt'):
 		if random.random() > percentage_positives:
 			continue
-		with open(os.path.join(os.getcwd(), filename), 'r') as f:
+		with open(os.path.join(os.getcwd(), filename), 'r', encoding="utf-8") as f:
 			contents = f.read()
 			contents = preprocess_text(contents)
 			positive_instances.append(contents)
@@ -37,12 +37,12 @@ def load_training_set(percentage_positives, percentage_negatives):
 	for filename in glob.glob('train/neg/*.txt'):
 		if random.random() > percentage_negatives:
 			continue
-		with open(os.path.join(os.getcwd(), filename), 'r') as f:
+		with open(os.path.join(os.getcwd(), filename), 'r', encoding="utf-8") as f:
 			contents = f.read()
 			contents = preprocess_text(contents)
 			negative_instances.append(contents)
-			vocab = vocab.union(set(contents))	
-	return positive_instances, negative_instances, vocab
+			vocab = vocab.union(set(contents))
+	return positive_instances, negative_instances, list(vocab)
 
 def load_test_set(percentage_positives, percentage_negatives):
 	positive_instances = []
@@ -51,14 +51,14 @@ def load_test_set(percentage_positives, percentage_negatives):
 		print(filename)
 		if random.random() > percentage_positives:
 			continue
-		with open(os.path.join(os.getcwd(), filename), 'r') as f:
+		with open(os.path.join(os.getcwd(), filename), 'r', encoding="utf-8") as f:
 			contents = f.read()
 			contents = preprocess_text(contents)
 			positive_instances.append(contents)
 	for filename in glob.glob('test/neg/*.txt'):
 		if random.random() > percentage_negatives:
 			continue
-		with open(os.path.join(os.getcwd(), filename), 'r') as f:
+		with open(os.path.join(os.getcwd(), filename), 'r', encoding="utf-8") as f:
 			contents = f.read()
 			contents = preprocess_text(contents)
 			negative_instances.append(contents)
@@ -68,7 +68,7 @@ def testmodule():
 	positive = []
 	for filename in glob.glob('test/pos/*.txt'):
 		print(filename)
-		with open(os.path.join(os.getcwd(), filename), 'r') as f:
+		with open(os.path.join(os.getcwd(), filename), 'r', encoding="utf-8") as f:
 			contents = f.read()
 			contents = preprocess_text(contents)
 			positive.append(contents)
