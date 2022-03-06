@@ -1,11 +1,14 @@
+from cgi import test
 import re
 import os
 import glob
 import random
 from nltk.corpus import stopwords
 import nltk
+import string
+from pprint import pprint
 
-REPLACE_NO_SPACE = re.compile("[._;:!`¦\'?,\"()\[\]]")
+REPLACE_NO_SPACE = re.compile("[._–;:!`¦\'?,\"()\[\]]") # add one '–'
 REPLACE_WITH_SPACE = re.compile("(<br\s*/><br\s*/>)|(\-)|(\/)")
 nltk.download('stopwords')  
 
@@ -15,6 +18,7 @@ def preprocess_text(text):
 	text = REPLACE_WITH_SPACE.sub(" ", text)
 	text = re.sub(r'\d+', '', text)
 	text = text.lower()
+	text="".join([i for i in text if i not in string.punctuation])
 	words = text.split()
 	return [w for w in words if w not in stop_words]
 
@@ -44,6 +48,7 @@ def load_test_set(percentage_positives, percentage_negatives):
 	positive_instances = []
 	negative_instances = []
 	for filename in glob.glob('test/pos/*.txt'):
+		print(filename)
 		if random.random() > percentage_positives:
 			continue
 		with open(os.path.join(os.getcwd(), filename), 'r') as f:
@@ -59,3 +64,13 @@ def load_test_set(percentage_positives, percentage_negatives):
 			negative_instances.append(contents)
 	return positive_instances, negative_instances
 		
+def testmodule():
+	positive = []
+	for filename in glob.glob('test/pos/*.txt'):
+		print(filename)
+		with open(os.path.join(os.getcwd(), filename), 'r') as f:
+			contents = f.read()
+			contents = preprocess_text(contents)
+			positive.append(contents)
+	return positive
+
