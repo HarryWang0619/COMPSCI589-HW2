@@ -6,6 +6,7 @@ import random
 from nltk.corpus import stopwords
 import nltk
 import string
+from collections import Counter
 from pprint import pprint
 
 REPLACE_NO_SPACE = re.compile("[._–;:!`¦\'?,\"()\[\]]") # add one '–'
@@ -63,14 +64,3 @@ def load_test_set(percentage_positives, percentage_negatives):
 			contents = preprocess_text(contents)
 			negative_instances.append(contents)
 	return positive_instances, negative_instances
-		
-def testmodule():
-	positive = []
-	for filename in glob.glob('test/pos/*.txt'):
-		print(filename)
-		with open(os.path.join(os.getcwd(), filename), 'r', encoding="utf-8") as f:
-			contents = f.read()
-			contents = preprocess_text(contents)
-			positive.append(contents)
-	return positive
-
