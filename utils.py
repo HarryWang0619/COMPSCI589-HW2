@@ -125,3 +125,19 @@ def toCounterDictList(trainingset):
 
 def accuracy(truePosi, trueNega, falsePosi, falseNega): # Count of all four
 	return (truePosi+trueNega)/(truePosi+trueNega+falseNega+falsePosi)
+
+def precision(truePosi, trueNega, falsePosi, falseNega):
+	preposi = truePosi/(truePosi+falsePosi)
+	prenega = trueNega/(trueNega+falseNega)
+	return (preposi+prenega)/2
+
+def recall(truePosi, trueNega, falsePosi, falseNega):
+	recposi = truePosi/(truePosi+falseNega)
+	recnega = trueNega/(trueNega+falsePosi)
+	return (recposi+recnega)/2
+
+def fscore(truePosi, trueNega, falsePosi, falseNega, beta: 1):
+	pre = precision(truePosi, trueNega, falsePosi, falseNega)
+	rec = recall(truePosi, trueNega, falsePosi, falseNega)
+	f = (1+beta**2)*((pre*rec)/(pre*(beta**2)+rec))
+	return f

@@ -2,11 +2,11 @@ from utils import *
 from pprint import pprint
 
 def naive_bayes():
-	percentage_positive_instances_train = 0.3
-	percentage_negative_instances_train = 0.3
+	percentage_positive_instances_train = 0.5
+	percentage_negative_instances_train = 0.5
 
-	percentage_positive_instances_test  = 0.1
-	percentage_negative_instances_test  = 0.1
+	percentage_positive_instances_test  = 0.3
+	percentage_negative_instances_test  = 0.3
 	
 	(pos_train, neg_train, vocab) = load_training_set(percentage_positive_instances_train, percentage_negative_instances_train)
 	(pos_test,  neg_test)         = load_test_set(percentage_positive_instances_test, percentage_negative_instances_test)
@@ -49,10 +49,15 @@ def naive_bayes():
 		else:
 			falsePositive += 1
 	
-	print(truePositive,trueNegative,falsePositive,falseNegative)
 	acc = accuracy(truePositive,trueNegative,falsePositive,falseNegative)
+	pre = precision(truePositive,trueNegative,falsePositive,falseNegative)
+	rec = recall(truePositive,trueNegative,falsePositive,falseNegative)
+	f = fscore(truePositive,trueNegative,falsePositive,falseNegative,2)
 
-	print(acc)
+	print("accuarcy is ",acc)
+	print("precision is ",pre)
+	print("recall is ",rec)
+	print("fscore is ", f)
 
 	return acc
 
