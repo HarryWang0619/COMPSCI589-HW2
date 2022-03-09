@@ -64,3 +64,55 @@ def load_test_set(percentage_positives, percentage_negatives):
 			contents = preprocess_text(contents)
 			negative_instances.append(contents)
 	return positive_instances, negative_instances
+
+def train(positivedata, negativedata):
+    posidict = dict(Counter(sum(positivedata,[])))
+    print(len(sum(positivedata,[])))
+    print(len(sum(negativedata,[])))
+    negadict = dict(Counter(sum(negativedata,[])))  
+    return posidict, negadict
+
+
+def probilityof(positivetrain, negativetrain, positivedict, negativedict, category: string, instance, log: bool, laplacesmooth: bool, smoothconstant = 1):
+
+    posinum = len(positivetrain)
+    neganum = len(negativetrain)
+    suminstance = neganum+posinum   
+
+    if category == ("posi" or "positive"):
+        num = posinum
+        trainset = positivetrain
+        dictuse = positivedict
+    else:
+        num = neganum
+        trainset = negativetrain
+        dictuse = negativedict
+
+    plist = []
+    p0 = num/suminstance
+    plist.append(p0)
+    denominator = sum([len(i) for i in trainset])
+    # print(sum(dictuse.values())-denominator)
+    vsize = len(dictuse)
+
+    for i in instance:
+        if (not laplacesmooth):
+            if i in dictuse:
+                probinstance = (dictuse[i]/denominator)
+            else: 
+                continue
+        else: # Smooth
+            if i in dictuse:
+                probinstance = ((dictuse[i]+smoothconstant)/(denominator+smoothconstant*vsize))
+            else: 
+                probinstance = ((smoothconstant)/(smoothconstant*vsize))
+        plist.append(probinstance)
+
+    if log:
+        loglist = list(map(math.log10, plist))
+        return sum(loglist)
+    
+    # if 0 not in plist:
+    #     print("prob is not zero")
+
+    return math.prod(plist)

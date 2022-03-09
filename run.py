@@ -22,6 +22,10 @@ def naive_bayes():
 			f.write("\n%s" % word)
 	print("Vocabulary (training set):", len(vocab))
 	
+	posidict, negadict = train(pos_train, neg_train)
+	
+
+	return
 
 if __name__=="__main__":
 	naive_bayes()
