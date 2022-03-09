@@ -8,6 +8,9 @@ import nltk
 import string
 from collections import Counter
 from pprint import pprint
+import math
+
+from sympy import true
 
 REPLACE_NO_SPACE = re.compile("[._–;:!`¦\'?,\"()\[\]]") # add one '–'
 REPLACE_WITH_SPACE = re.compile("(<br\s*/><br\s*/>)|(\-)|(\/)")
@@ -67,8 +70,8 @@ def load_test_set(percentage_positives, percentage_negatives):
 
 def train(positivedata, negativedata):
     posidict = dict(Counter(sum(positivedata,[])))
-    print(len(sum(positivedata,[])))
-    print(len(sum(negativedata,[])))
+    # print(len(sum(positivedata,[])))
+    # print(len(sum(negativedata,[])))
     negadict = dict(Counter(sum(negativedata,[])))  
     return posidict, negadict
 
@@ -79,7 +82,7 @@ def probilityof(positivetrain, negativetrain, positivedict, negativedict, catego
     neganum = len(negativetrain)
     suminstance = neganum+posinum   
 
-    if category == ("posi" or "positive"):
+    if category == "posi" or category == "positive":
         num = posinum
         trainset = positivetrain
         dictuse = positivedict
@@ -116,3 +119,9 @@ def probilityof(positivetrain, negativetrain, positivedict, negativedict, catego
     #     print("prob is not zero")
 
     return math.prod(plist)
+
+def toCounterDictList(trainingset):
+	return [dict(Counter(i)) for i in trainingset]
+
+def accuracy(truePosi, trueNega, falsePosi, falseNega): # Count of all four
+	return (truePosi+trueNega)/(truePosi+trueNega+falseNega+falsePosi)
