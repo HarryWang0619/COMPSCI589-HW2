@@ -52,7 +52,7 @@ def load_test_set(percentage_positives, percentage_negatives):
 	positive_instances = []
 	negative_instances = []
 	for filename in glob.glob('test/pos/*.txt'):
-		print(filename)
+		#print(filename)
 		if random.random() > percentage_positives:
 			continue
 		with open(os.path.join(os.getcwd(), filename), 'r', encoding="utf-8") as f:
