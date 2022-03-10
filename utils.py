@@ -99,6 +99,7 @@ def probilityof(positivetrain, negativetrain, positivedict, negativedict, vocab,
     denominator = sum([len(i) for i in trainset])
     # print(sum(dictuse.values())-denominator)
     vsize = len(vocab)
+    # vsize = len(dictuse)
 
     for i in instance:
         if (not laplacesmooth):
@@ -129,11 +130,15 @@ def accuracy(truePosi, trueNega, falsePosi, falseNega): # Count of all four
 	return (truePosi+trueNega)/(truePosi+trueNega+falseNega+falsePosi)
 
 def precision(truePosi, trueNega, falsePosi, falseNega):
+	if (truePosi+falsePosi) == 0:
+		return 0
 	preposi = truePosi/(truePosi+falsePosi)
 	prenega = trueNega/(trueNega+falseNega)
 	return preposi
 
 def recall(truePosi, trueNega, falsePosi, falseNega):
+	if (truePosi+falseNega)== 0:
+		return 0
 	recposi = truePosi/(truePosi+falseNega)
 	recnega = trueNega/(trueNega+falsePosi)
 	return recposi
@@ -141,6 +146,8 @@ def recall(truePosi, trueNega, falsePosi, falseNega):
 def fscore(truePosi, trueNega, falsePosi, falseNega, beta: 1):
 	pre = precision(truePosi, trueNega, falsePosi, falseNega)
 	rec = recall(truePosi, trueNega, falsePosi, falseNega)
+	if (pre*(beta**2)+rec) == 0:
+		return 0
 	f = (1+beta**2)*((pre*rec)/(pre*(beta**2)+rec))
 	return f
 
@@ -149,7 +156,7 @@ def confusionmatrix(truePosi, trueNega, falsePosi, falseNega, title=""):
 	plt.title(title)
 	col_labels = ['Predict:+', 'Predict:-']
 	row_labels = ['Real:+', 'Real:-']
-	table_vals = [[truePosi, falseNega], [trueNega, falsePosi]]
+	table_vals = [[truePosi, falseNega], [falsePosi, trueNega]]
 	the_table = plt.table(cellText=table_vals,
                       colWidths=[0.1] * 3,
                       rowLabels=row_labels,
@@ -163,5 +170,7 @@ def confusionmatrix(truePosi, trueNega, falsePosi, falseNega, title=""):
 
 	for pos in ['right','top','bottom','left']:
 		plt.gca().spines[pos].set_visible(False)
-		
+
+	plt.show()	
+
 	return 
