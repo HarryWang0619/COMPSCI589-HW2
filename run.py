@@ -76,7 +76,7 @@ def fixdatabayes(pos_train, neg_train, pos_test, neg_test, vocab, laplacesmooth:
 
 	t0 = time.time()
 	
-	print("Learning Training Data, at time 0.00 sec")
+	# print("Learning Training Data, at time 0.00 sec")
 
 	posidict, negadict = train(pos_train, neg_train)
 	
@@ -89,7 +89,7 @@ def fixdatabayes(pos_train, neg_train, pos_test, neg_test, vocab, laplacesmooth:
 	falseNegative = 0
 
 	# i = 0
-	print("Testing Positive, at time ", format((time.time()-t0),".2f"), "sec")
+	# print("Testing Positive, at time ", format((time.time()-t0),".2f"), "sec")
 	for posiinstance in positest:
 		ppositive = probilityof(pos_train,neg_train,posidict,negadict,vocab,'positive',posiinstance,logbool,laplacesmooth,smoothconst)
 		pnegative = probilityof(pos_train,neg_train,posidict,negadict,vocab,'negative',posiinstance,logbool,laplacesmooth,smoothconst)
@@ -98,7 +98,7 @@ def fixdatabayes(pos_train, neg_train, pos_test, neg_test, vocab, laplacesmooth:
 		else:
 			falseNegative += 1
 
-	print("Testing Negative, at time ", format((time.time()-t0),".2f"), "sec")
+	# print("Testing Negative, at time ", format((time.time()-t0),".2f"), "sec")
 	for negainstance in negatest:
 		ppositive = probilityof(pos_train,neg_train,posidict,negadict,vocab,'positive',negainstance,logbool,laplacesmooth,smoothconst)
 		pnegative = probilityof(pos_train,neg_train,posidict,negadict,vocab,'negative',negainstance,logbool,laplacesmooth,smoothconst)
@@ -112,11 +112,11 @@ def fixdatabayes(pos_train, neg_train, pos_test, neg_test, vocab, laplacesmooth:
 	rec = recall(truePositive,trueNegative,falsePositive,falseNegative)
 	f = fscore(truePositive,trueNegative,falsePositive,falseNegative,1)
 
-	print("Total Time Cost is ", format((time.time()-t0),".2f"), "sec")
-	print("Accuarcy  is: ", format(acc,".6f"))
-	print("Precision is: ",format(pre,".6f"))
-	print("Recall    is: ",format(rec,".6f"))
-	print("F-Score   is: ", format(f,".6f"))
+	# print("Total Time Cost is ", format((time.time()-t0),".2f"), "sec")
+	# print("Accuarcy  is: ", format(acc,".6f"))
+	# print("Precision is: ",format(pre,".6f"))
+	# print("Recall    is: ",format(rec,".6f"))
+	# print("F-Score   is: ", format(f,".6f"))
 
 	return truePositive,trueNegative,falsePositive,falseNegative
 

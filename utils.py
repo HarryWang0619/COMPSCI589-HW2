@@ -144,10 +144,11 @@ def fscore(truePosi, trueNega, falsePosi, falseNega, beta: 1):
 	f = (1+beta**2)*((pre*rec)/(pre*(beta**2)+rec))
 	return f
 
-def confusionmatrix(truePosi, trueNega, falsePosi, falseNega):
+def confusionmatrix(truePosi, trueNega, falsePosi, falseNega, title=""):
 	fig = plt.figure()
+	plt.title(title)
 	col_labels = ['Predict:+', 'Predict:-']
-	row_labels = ['Real:+', 'Real:+']
+	row_labels = ['Real:+', 'Real:-']
 	table_vals = [[truePosi, falseNega], [trueNega, falsePosi]]
 	the_table = plt.table(cellText=table_vals,
                       colWidths=[0.1] * 3,
