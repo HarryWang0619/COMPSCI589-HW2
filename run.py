@@ -72,6 +72,55 @@ def naive_bayes(ptrain:float=0.1,ntrain:float=0.1,ptest:float=0.1,ntest:test=0.1
 
 	return truePositive,trueNegative,falsePositive,falseNegative
 
+def fixdatabayes(pos_train, neg_train, pos_test, neg_test, vocab, laplacesmooth:bool=True, logbool:bool=True, smoothconst:float=1):
+
+	t0 = time.time()
+	
+	print("Learning Training Data, at time 0.00 sec")
+
+	posidict, negadict = train(pos_train, neg_train)
+	
+	positest = toCounterDictList(pos_test)
+	negatest = toCounterDictList(neg_test)
+
+	truePositive = 0
+	trueNegative = 0
+	falsePositive = 0
+	falseNegative = 0
+
+	# i = 0
+	print("Testing Positive, at time ", format((time.time()-t0),".2f"), "sec")
+	for posiinstance in positest:
+		ppositive = probilityof(pos_train,neg_train,posidict,negadict,vocab,'positive',posiinstance,logbool,laplacesmooth,smoothconst)
+		pnegative = probilityof(pos_train,neg_train,posidict,negadict,vocab,'negative',posiinstance,logbool,laplacesmooth,smoothconst)
+		if ppositive > pnegative:
+			truePositive += 1
+		else:
+			falseNegative += 1
+
+	print("Testing Negative, at time ", format((time.time()-t0),".2f"), "sec")
+	for negainstance in negatest:
+		ppositive = probilityof(pos_train,neg_train,posidict,negadict,vocab,'positive',negainstance,logbool,laplacesmooth,smoothconst)
+		pnegative = probilityof(pos_train,neg_train,posidict,negadict,vocab,'negative',negainstance,logbool,laplacesmooth,smoothconst)
+		if ppositive < pnegative:
+			trueNegative += 1
+		else:
+			falsePositive += 1
+	
+	acc = accuracy(truePositive,trueNegative,falsePositive,falseNegative)
+	pre = precision(truePositive,trueNegative,falsePositive,falseNegative)
+	rec = recall(truePositive,trueNegative,falsePositive,falseNegative)
+	f = fscore(truePositive,trueNegative,falsePositive,falseNegative,1)
+
+	print("Total Time Cost is ", format((time.time()-t0),".2f"), "sec")
+	print("Accuarcy  is: ", format(acc,".6f"))
+	print("Precision is: ",format(pre,".6f"))
+	print("Recall    is: ",format(rec,".6f"))
+	print("F-Score   is: ", format(f,".6f"))
+
+	return truePositive,trueNegative,falsePositive,falseNegative
+
+
 if __name__=="__main__":
 	naive_bayes(0.1,0.1,0.03,0.03)
 

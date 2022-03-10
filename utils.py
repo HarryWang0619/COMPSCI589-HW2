@@ -146,8 +146,8 @@ def fscore(truePosi, trueNega, falsePosi, falseNega, beta: 1):
 
 def confusionmatrix(truePosi, trueNega, falsePosi, falseNega):
 	fig = plt.figure()
-	col_labels = ['Exp:Pos', 'Exp:Neg']
-	row_labels = ['Real:Pos', 'Real:Neg']
+	col_labels = ['Predict:+', 'Predict:-']
+	row_labels = ['Real:+', 'Real:+']
 	table_vals = [[truePosi, falseNega], [trueNega, falsePosi]]
 	the_table = plt.table(cellText=table_vals,
                       colWidths=[0.1] * 3,
