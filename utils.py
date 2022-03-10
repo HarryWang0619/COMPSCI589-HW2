@@ -11,7 +11,6 @@ from pprint import pprint
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns; sns.set()
 
 from sympy import true
 
@@ -79,7 +78,7 @@ def train(positivedata, negativedata):
     return posidict, negadict
 
 
-def probilityof(positivetrain, negativetrain, positivedict, negativedict, category: string, instance, log: bool, laplacesmooth: bool, smoothconstant = 1):
+def probilityof(positivetrain, negativetrain, positivedict, negativedict, vocab, category: string, instance, log: bool, laplacesmooth: bool, smoothconstant = 1):
 
     posinum = len(positivetrain)
     neganum = len(negativetrain)
@@ -99,7 +98,7 @@ def probilityof(positivetrain, negativetrain, positivedict, negativedict, catego
     plist.append(p0)
     denominator = sum([len(i) for i in trainset])
     # print(sum(dictuse.values())-denominator)
-    vsize = len(positivedict)+len(negativedict)
+    vsize = len(vocab)
 
     for i in instance:
         if (not laplacesmooth):
@@ -146,6 +145,22 @@ def fscore(truePosi, trueNega, falsePosi, falseNega, beta: 1):
 	return f
 
 def confusionmatrix(truePosi, trueNega, falsePosi, falseNega):
-	data = np.array(([truePosi, falseNega], [trueNega, falsePosi]))
-	
+	fig = plt.figure()
+	col_labels = ['Exp:Pos', 'Exp:Neg']
+	row_labels = ['Real:Pos', 'Real:Neg']
+	table_vals = [[truePosi, falseNega], [trueNega, falsePosi]]
+	the_table = plt.table(cellText=table_vals,
+                      colWidths=[0.1] * 3,
+                      rowLabels=row_labels,
+                      colLabels=col_labels,
+                      loc='center')
+	the_table.auto_set_font_size(False)
+	the_table.set_fontsize(24)
+	the_table.scale(4, 4)
+	plt.tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
+	plt.tick_params(axis='y', which='both', right=False, left=False, labelleft=False)
+
+	for pos in ['right','top','bottom','left']:
+		plt.gca().spines[pos].set_visible(False)
+		
 	return 

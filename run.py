@@ -43,8 +43,8 @@ def naive_bayes(ptrain:float=0.1,ntrain:float=0.1,ptest:float=0.1,ntest:test=0.1
 	# i = 0
 	print("Testing Positive, at time ", format((time.time()-t0),".2f"), "sec")
 	for posiinstance in positest:
-		ppositive = probilityof(pos_train,neg_train,posidict,negadict,'positive',posiinstance,logbool,laplacesmooth,smoothconst)
-		pnegative = probilityof(pos_train,neg_train,posidict,negadict,'negative',posiinstance,logbool,laplacesmooth,smoothconst)
+		ppositive = probilityof(pos_train,neg_train,posidict,negadict,vocab,'positive',posiinstance,logbool,laplacesmooth,smoothconst)
+		pnegative = probilityof(pos_train,neg_train,posidict,negadict,vocab,'negative',posiinstance,logbool,laplacesmooth,smoothconst)
 		if ppositive > pnegative:
 			truePositive += 1
 		else:
@@ -52,8 +52,8 @@ def naive_bayes(ptrain:float=0.1,ntrain:float=0.1,ptest:float=0.1,ntest:test=0.1
 
 	print("Testing Negative, at time ", format((time.time()-t0),".2f"), "sec")
 	for negainstance in negatest:
-		ppositive = probilityof(pos_train,neg_train,posidict,negadict,'positive',negainstance,logbool,laplacesmooth,smoothconst)
-		pnegative = probilityof(pos_train,neg_train,posidict,negadict,'negative',negainstance,logbool,laplacesmooth,smoothconst)
+		ppositive = probilityof(pos_train,neg_train,posidict,negadict,vocab,'positive',negainstance,logbool,laplacesmooth,smoothconst)
+		pnegative = probilityof(pos_train,neg_train,posidict,negadict,vocab,'negative',negainstance,logbool,laplacesmooth,smoothconst)
 		if ppositive < pnegative:
 			trueNegative += 1
 		else:
@@ -73,5 +73,5 @@ def naive_bayes(ptrain:float=0.1,ntrain:float=0.1,ptest:float=0.1,ntest:test=0.1
 	return truePositive,trueNegative,falsePositive,falseNegative
 
 if __name__=="__main__":
-	naive_bayes(0.01,0.01,0.01,0.01)
+	naive_bayes(0.1,0.1,0.03,0.03)
 
