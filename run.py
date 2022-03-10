@@ -2,7 +2,7 @@ from utils import *
 from pprint import pprint
 import time
 
-def naive_bayes(ptrain:float=0.1,ntrain:float=0.1,ptest:float=0.1,ntest:test=0.1,laplacesmooth:bool=true, logbool:bool=true, smoothconst:float=1):
+def naive_bayes(ptrain:float=0.1,ntrain:float=0.1,ptest:float=0.1,ntest:test=0.1,laplacesmooth:bool=True, logbool:bool=True, smoothconst:float=1):
 	
 	t0 = time.time()
 
@@ -70,8 +70,8 @@ def naive_bayes(ptrain:float=0.1,ntrain:float=0.1,ptest:float=0.1,ntest:test=0.1
 	print("Recall    is: ",format(rec,".6f"))
 	print("F-Score   is: ", format(f,".6f"))
 
-	return acc
+	return truePositive,trueNegative,falsePositive,falseNegative
 
 if __name__=="__main__":
-	naive_bayes(0.3,0.3,0.2,0.2)
+	naive_bayes(0.01,0.01,0.01,0.01)
 

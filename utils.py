@@ -9,6 +9,9 @@ import string
 from collections import Counter
 from pprint import pprint
 import math
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns; sns.set()
 
 from sympy import true
 
@@ -96,7 +99,7 @@ def probilityof(positivetrain, negativetrain, positivedict, negativedict, catego
     plist.append(p0)
     denominator = sum([len(i) for i in trainset])
     # print(sum(dictuse.values())-denominator)
-    vsize = len(dictuse)
+    vsize = len(positivedict)+len(negativedict)
 
     for i in instance:
         if (not laplacesmooth):
@@ -129,15 +132,20 @@ def accuracy(truePosi, trueNega, falsePosi, falseNega): # Count of all four
 def precision(truePosi, trueNega, falsePosi, falseNega):
 	preposi = truePosi/(truePosi+falsePosi)
 	prenega = trueNega/(trueNega+falseNega)
-	return (preposi+prenega)/2
+	return preposi
 
 def recall(truePosi, trueNega, falsePosi, falseNega):
 	recposi = truePosi/(truePosi+falseNega)
 	recnega = trueNega/(trueNega+falsePosi)
-	return (recposi+recnega)/2
+	return recposi
 
 def fscore(truePosi, trueNega, falsePosi, falseNega, beta: 1):
 	pre = precision(truePosi, trueNega, falsePosi, falseNega)
 	rec = recall(truePosi, trueNega, falsePosi, falseNega)
 	f = (1+beta**2)*((pre*rec)/(pre*(beta**2)+rec))
 	return f
+
+def confusionmatrix(truePosi, trueNega, falsePosi, falseNega):
+	data = np.array(([truePosi, falseNega], [trueNega, falsePosi]))
+	
+	return 
